@@ -1,0 +1,39 @@
+<!-- websockets.html -->
+<html>
+<header>
+    <title>test mongo-stream</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</header>
+<body>
+
+	<div class="input-group mb-3">
+		<input id="database" type="text" class="form-control" placeholder="database Name" aria-label="database Name" aria-describedby="button-addon2">
+		<input id="collection" type="text" class="form-control" placeholder="collection Name" aria-label="collection Name" aria-describedby="button-addon2">
+		<div class="input-group-append">
+			   <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="MongoSTream()">mongo ChangeStream</button>
+			 </div>
+   </div>
+	  
+   <div class="alert alert-success" role="alert">
+	   <pre id="outputM"></pre>
+   </div>
+
+<script>
+	function MongoSTream(){
+	var database = document.getElementById("database").value;
+	var collection = document.getElementById("collection").value;
+	var output = document.getElementById("outputM");
+	var socket = new WebSocket("ws://localhost:8080/v1/api/mdb/stream?database="+database+"&collection="+collection);
+
+	socket.onopen = function () {
+		output.innerHTML += "Status: Connected\n";
+	};
+
+	socket.onmessage = function (e) {
+		output.innerHTML += "Server: " + e.data + "\n";
+	};
+	}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+FROM golang:1.12-alpine3.9
+
+RUN apk add --nocache --update alpine-sdk
+
+RUN apk add --update tzdata ca-certificates openssl && rm -rf /var/cache/apk/*
+
+COPY . /go/src/gitlab.com/target-smart-data-ai-search/pg-log-extractor
+
+WORKDIR $GOPATH/src/gitlab.com/target-smart-data-ai-search/pg-log-extractor

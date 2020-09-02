@@ -1,0 +1,50 @@
+<!-- websockets.html -->
+<html>
+<header>
+    <title>test pg-stream</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</header>
+<body>
+
+   <div class="card">
+		<div class="card-header">
+			Featured
+			</div>
+			<div class="card-body">
+			    <h5 class="card-title">Introduction</h5>
+				  <p class="card-text">
+						pg-log-extractor uses Postgres's logical decoding feature to stream table changes over a websocket connection. 
+						It is a stateless service and can be connected directly to a Postgres instance.
+				  </p>
+			</div>
+    </div>
+  
+    <div class="input-group mb-3">
+		 <input id="input" type="text" class="form-control" placeholder="slot Name" aria-label="slot Name" aria-describedby="button-addon2">
+		 <div class="input-group-append">
+				<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="lrSTream()">Stream</button>
+			  </div>
+    </div>
+       
+    <div class="alert alert-success" role="alert">
+        <pre id="output"></pre>
+    </div>
+
+<script>
+	function lrSTream(){
+	var input = document.getElementById("input").value;
+	var output = document.getElementById("output");
+	var socket = new WebSocket("ws://localhost:8080/v1/api/lr/stream?slotName="+input);
+
+	socket.onopen = function () {
+		output.innerHTML += "Status: Connected\n";
+	};
+
+	socket.onmessage = function (e) {
+		output.innerHTML += "Server: " + e.data + "\n";
+	};
+	}
+
+</script>
+</body>
+</html>
